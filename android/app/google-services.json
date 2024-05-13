@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "259957434978",
+    "project_id": "kavachfb",
+    "storage_bucket": "kavachfb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:259957434978:android:9c12946207d8900c9c3f3b",
+        "android_client_info": {
+          "package_name": "com.example.kavach"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDefJf_zqijgcQejHcOZfnALNKllPCRz5o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

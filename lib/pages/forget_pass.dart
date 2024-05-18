@@ -77,7 +77,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                           Padding(
                             padding: const EdgeInsets.all(12),
                             child: Text(
-                              'Enter the OTP sent to your registered mobile number',
+                              'Enter the OTP sent to your email address',
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: isSmallScreen ? 10 : 20,

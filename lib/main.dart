@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:kavach/firebase_options.dart';
+import 'package:kavach/pages/homepage.dart';
 import 'package:kavach/pages/landing.dart';
 
 void main() async{

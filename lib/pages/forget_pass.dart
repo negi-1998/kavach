@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:kavach/pages/change_password.dart';
 
 class ForgetPassword extends StatefulWidget {
-  const ForgetPassword({Key? key}) : super(key: key);
+  final String otp;
+  final String email;
+  const ForgetPassword({
+    Key? key,
+    required this.otp,
+    required this.email,
+  }) : super(key: key);
 
   @override
   State<ForgetPassword> createState() => _ForgetPasswordState();
@@ -9,6 +16,8 @@ class ForgetPassword extends StatefulWidget {
 
 class _ForgetPasswordState extends State<ForgetPassword> {
   final List<TextEditingController> otpControllers = List.generate(4, (_) => TextEditingController());
+  int _attemptsLeft = 3;
+  bool _isButtonDisabled = false;
 
   @override
   void dispose() {
@@ -16,6 +25,32 @@ class _ForgetPasswordState extends State<ForgetPassword> {
       controller.dispose();
     }
     super.dispose();
+  }
+
+  void _verifyOTP() {
+    String enteredOTP = otpControllers.map((controller) => controller.text).join();
+    if (enteredOTP == widget.otp) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Verification successful')),
+      );
+
+      Navigator.push(
+        context, 
+        MaterialPageRoute(
+          builder: (context) => ChangePassword(email: widget.email,),
+        )
+      );
+    } else {
+      setState(() {
+        _attemptsLeft--;
+        if (_attemptsLeft == 0) {
+          _isButtonDisabled = true;
+        }
+      });
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Incorrect OTP. Attempts left: $_attemptsLeft')),
+      );
+    }
   }
 
   @override
@@ -106,7 +141,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                                       color: Colors.white,
                                     ),
                                     cursorHeight: squareSize * 0.5,
-                                    cursorWidth: 2, 
+                                    cursorWidth: 2,
                                     cursorColor: Colors.white,
                                     showCursor: true,
                                     keyboardType: TextInputType.number,
@@ -128,34 +163,44 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                           ),
                           const SizedBox(height: 50),
                           GestureDetector(
-                            onTap: () {
-                              print('login button');
-                            },
+                            onTap: _isButtonDisabled ? null : _verifyOTP,
                             child: Container(
                               height: 50,
-                              width: squareSize*3,
+                              width: squareSize * 3,
                               decoration: BoxDecoration(
                                 gradient: const LinearGradient(
                                   colors: [
-                                    Color.fromARGB(255, 13, 71, 161), 
-                                    Colors.blueGrey, 
+                                    Color.fromARGB(255, 13, 71, 161),
+                                    Colors.blueGrey,
                                   ],
                                   begin: Alignment.topCenter,
                                   end: Alignment.bottomCenter,
                                 ),
                                 borderRadius: BorderRadius.circular(20),
                               ),
-                              child: const Center(
+                              child: Center(
                                 child: Text(
                                   'Verify',
                                   style: TextStyle(
-                                    color: Colors.white,
+                                    color: _isButtonDisabled ? Colors.grey : Colors.white,
                                     fontSize: 20,
                                   ),
                                 ),
                               ),
                             ),
                           ),
+                          if (_isButtonDisabled)
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                'You have exceeded the maximum number of attempts. Please generate a new OTP.',
+                                style: TextStyle(
+                                  color: Colors.green,
+                                  fontSize: isSmallScreen ? 12 : 16,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
                         ],
                       ),
                     ),

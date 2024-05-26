@@ -185,7 +185,15 @@ class _SignupFormState extends State<SignupForm> {
         _passwordController.text.isNotEmpty &&
         _confirmPasswordController.text.isNotEmpty &&
         _isPasswordValid.value &&
-        _passwordController.text == _confirmPasswordController.text;
+        _passwordController.text == _confirmPasswordController.text &&
+        validateEmail(_usernameController.text);
+  }
+
+  bool validateEmail(String email) {
+    String pattern =
+        r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$';
+    RegExp regex = RegExp(pattern);
+    return regex.hasMatch(email);
   }
 
   void _signup() async {
